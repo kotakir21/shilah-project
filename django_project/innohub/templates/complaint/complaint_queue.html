@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Complaint ID</th>
+                    <th scope="col">Complaint Title</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Date Created</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for complaint in complaints %}
+                <tr>
+                    <td><a href="{% url 'complaint-details' complaint.complaint_id %}">{{complaint.complaint_id}}</a></td>
+                    <td>{{complaint.complaint_title}}</td>
+                    <td>{{complaint.customer}}</td>
+                    <td>{{complaint.created_on}}</td>
+                    <td><a href="{% url 'assign-complaint' complaint.complaint_id %}" class="btn btn-outline-primary btn-sm">Assign to Engineer</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

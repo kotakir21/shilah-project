@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row p-5 mb-4 bg-light rounded-3">
+    <div class="col-md-8">
+        <div class=" py-5">
+            <h1 class="display-6 fw-bold">{{complaint.complaint_title}}</h1>
+            <p class="">
+                {{complaint.complaint_details}}
+            </p>
+            <p class="">
+                {{complaint.complaint_details}}
+            </p>
+            {% if complaint.status == 'Pending' %}
+            <span class="badge bg-warning">Pending</span>
+            {% elif complaint.status == 'Active' %}
+            <span class="badge bg-success">Active</span>
+            {% elif complaint.status == 'Resolved' %}
+            <span class="badge bg-danger">Resolved</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class=" py-5">
+                    <h2 class="display-6">Quick Info</h2>
+                    <p>Here are some quick information about the complaint and the customer that you are supporting.
+                    </p>
+                    <ul class="icon-list">
+                        <li><b>complaint Unique ID:</b> {{complaint.complaint_id}}</li>
+                        <li><b>Customer:</b> {{complaint.customer}}</li>
+                        <li><b> Engineer:</b> {{complaint.engineer}}</li>
+                        <li><b>Created On:</b> {{complaint.created_on}}</li>
+                        <li><b>Severity:</b> {{complaint.severity}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% if complaint.is_resolved %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Resolution Steps</h5>
+        {{complaint.resolution_steps}}
+    </div>
+</div>
+{% else %}
+{% if request.user.is_engineer %}
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Mark As Resolved
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Resolution Steps</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="">
+                    <div class="">
+
+                        <form action="{% url 'resolve-complaint' complaint.complaint_id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Here's how the
+                                    issue was resolved</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                    name="rs"></textarea>
+                            </div>
+                            <button class="btn btn-primary">Save</button>
+                        </form>
+                
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</form>
+</div>
+</div>
+{% endif %}
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,5 @@
+# Consult release notes for supported versions of Django, Wagtail, and Python.
+# https://docs.coderedcorp.com/wagtail-crx/releases/
+coderedcms==3.0.*
+wagtail==5.2.*
+django-widget-tweaks==1.5.0
