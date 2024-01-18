@@ -26,7 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 INSTALLED_APPS = [
     
     # This project
-    #'entryform',
+    'ictsme',
+    'accelerator',
+    'incubator',
+    'ideation',
     'complaint',
     'accounts', 
     'dashboard', 

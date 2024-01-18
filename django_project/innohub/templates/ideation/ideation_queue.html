@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ideation Entry Form ID</th>
+                    <th scope="col">ideation Title</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Date Created</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ideation in ideations %}
+                <tr>
+                    <td><a href="{% url 'ideation-details' ideation.ideation_id %}">{{ideation.ideation_id}}</a></td>
+                    <td>{{ideation.ideation_title}}</td>
+                    <td>{{ideation.customer}}</td>
+                    <td>{{ideation.created_on}}</td>
+                    <td><a href="{% url 'assign-ideation' ideation.ideation_id %}" class="btn btn-outline-primary btn-sm">Assign to Engineer</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

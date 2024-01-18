@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">accelerator Entry Form ID</th>
+                    <th scope="col">accelerator Title</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Date Created</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for accelerator in accelerators %}
+                <tr>
+                    <td><a href="{% url 'accelerator-details' accelerator.accelerator_id %}">{{accelerator.accelerator_id}}</a></td>
+                    <td>{{accelerator.accelerator_title}}</td>
+                    <td>{{accelerator.customer}}</td>
+                    <td>{{accelerator.created_on}}</td>
+                    <td><a href="{% url 'assign-accelerator' accelerator.accelerator_id %}" class="btn btn-outline-primary btn-sm">Assign to Engineer</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

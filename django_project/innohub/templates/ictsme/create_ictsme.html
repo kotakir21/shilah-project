@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="container col-xl-12 col-xxl-10 px-4 py-5">
+    <div class="row align-items-center g-lg-5 py-5">
+        <div class="col-lg-6 text-center text-lg-start">
+            <div class="h-100">
+                <!-- Add your image or content here -->
+            </div>
+        </div>
+        <div class="col-md-10 mx-auto col-lg-6">
+            <h2 class="display-6 fw-bold lh-1 mb-3 text-center">Entry Form
+                ICT SME Hot Desk
+                
+                </h2>
+            <form class="p-4 p-md-5 border rounded-3 bg-light" method="POST">
+                {% csrf_token %}
+
+                <!-- Form fields -->
+                <div class="form-floating mb-3">
+                    {% render_field form.ictsme_title class="form-control" %}
+                    <label for="floatingInput">Company Name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.position_in_company class="form-control" %}
+                    <label for="floatingInput">Position in Company</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    {% render_field form.applicant_name class="form-control" %}
+                    <label for="floatingPassword">Applicant Name</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    {% render_field form.applicant_phone class="form-control" %}
+                    <label for="floatingPassword">Applicant Phone</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.product_name class="form-control" %}
+                    <label for="floatingPassword">Name of ICT product/ service</label>
+                </div>
+                
+                
+                <div class="form-floating mb-3">
+                    {% render_field form.year_of_incorporation class="form-control" %}
+                    <label for="floatingPassword">Indicate year of incorporation:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.mentor_support class="form-control" %}
+                    <label for="floatingPassword">Is the company willing to provide mentor support to members of the hub?</label>
+                </div>
+                
+               
+
+                <div class="form-check mb-3">
+                    {% render_field form.have_ursb_registration_number class="form-check-input" id="have_ursb_registration_number" %}
+                    <label class="form-check-label" for="{{ form.have_ursb_registration_number.id_for_label }}">Have URSB Registration Number</label>
+                </div>
+                <div id="ursb_registration_number_field" style="display: none;">
+                    <div class="form-floating mb-3">
+                        {% render_field form.ursb_registration_number class="form-control" %}
+                        <label for="floatingPassword">URSB Registration Number</label>
+                    </div>
+                </div>
+
+                
+
+                <div class="form-check mb-3">
+                    {% render_field form.have_ura_registration_number class="form-check-input" id="have_ura_registration_number" %}
+                    <label class="form-check-label" for="{{ form.have_ura_registration_number.id_for_label }}">Have URA Registration Number</label>
+                </div>
+                <div id="ura_registration_number_field" style="display: none;">
+                    <div class="form-floating mb-3">
+                        {% render_field form.ura_registration_number class="form-control" %}
+                        <label for="floatingPassword">Please indicate the Tax Identification Number:</label>
+                    </div>
+                </div>
+
+                
+
+                <!-- Add other fields as needed -->
+                
+                <div class="form-floating mb-3">
+                    {% render_field form.hub_requirements class="form-control" %}
+                    <label for="floatingPassword">Kindly list below the requirements or support that you seek from the National ICT Innovation Hub</label>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    
+
+    $('#have_ursb_registration_number').change(function() {
+        if(this.checked) {
+            $('#ursb_registration_number_field').show();
+        } else {
+            $('#ursb_registration_number_field').hide();
+        }
+    });
+
+    $('#have_ura_registration_number').change(function() {
+        if(this.checked) {
+            $('#ura_registration_number_field').show();
+        } else {
+            $('#ura_registration_number_field').hide();
+        }
+    });
+
+    
+
+    // Add similar logic for other conditional fields
+});
+</script>
+
+{% endblock content %}

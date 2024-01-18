@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="p-5 mb-4 bg-light rounded-3">
-    <div class="container-fluid py-5">
+<div class="container mt-5">
+    <div class="jumbotron p-4 p-md-5 mb-4 text-white rounded bg-dark">
         <h1 class="display-5 fw-bold">Admin Dashboard</h1>
-        <p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one
-            in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it
-            to your liking.</p>
-        <a href="{% url 'ticket-queue' %}" class="btn btn-primary btn-lg" type="button">View Ticket Queue</a>
-        <a href="{% url 'complaint-queue' %}" class="btn btn-primary btn-lg" type="button">View Complaint Queue</a>
+        <p class="col-md-8 fs-4">Welcome to the admin dashboard. Manage and oversee various queues and forms efficiently.</p>
+        <div class="btn-group">
+            <a href="{% url 'ticket-queue' %}" class="btn btn-primary btn-lg" type="button">View Ticket Queue</a>
+            <a href="{% url 'complaint-queue' %}" class="btn btn-primary btn-lg" type="button">View Complaint Queue</a>
+            <a href="{% url 'ideation-queue' %}" class="btn btn-primary btn-lg" type="button">View Ideation Entry Form Queue</a>
+            <a href="{% url 'incubator-queue' %}" class="btn btn-primary btn-lg" type="button">View Incubator Entry Form Queue</a>
+            <a href="{% url 'accelerator-queue' %}" class="btn btn-primary btn-lg" type="button">View Accelerator Entry Form Queue</a>
+            <a href="{% url 'ictsme-queue' %}" class="btn btn-primary btn-lg" type="button">View ICT SME Hot Desk Entry Form Queue</a>
+        </div>
     </div>
 </div>
 {% endblock content %}

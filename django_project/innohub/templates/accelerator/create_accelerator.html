@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="container col-xl-12 col-xxl-10 px-4 py-5">
+    <div class="row align-items-center g-lg-5 py-5">
+        <div class="col-lg-6 text-center text-lg-start">
+            <div class="h-100">
+                <!-- Add your image or content here -->
+            </div>
+        </div>
+        <div class="col-md-10 mx-auto col-lg-6">
+            <h2 class="display-6 fw-bold lh-1 mb-3 text-center">Entry Form
+                For Startup at accelerator Stage (MVP)
+                </h2>
+            <form class="p-4 p-md-5 border rounded-3 bg-light" method="POST">
+                {% csrf_token %}
+
+                <!-- Form fields -->
+                <div class="form-floating mb-3">
+                    {% render_field form.accelerator_title class="form-control" %}
+                    <label for="floatingInput">Company Name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.position_in_company class="form-control" %}
+                    <label for="floatingInput">Position in Company</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    {% render_field form.applicant_name class="form-control" %}
+                    <label for="floatingPassword">Applicant Name</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    {% render_field form.applicant_phone class="form-control" %}
+                    <label for="floatingPassword">Applicant Phone</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.product_name class="form-control" %}
+                    <label for="floatingPassword">Name of product or service at MVP stage</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.serving_sectors class="form-control" %}
+                    <label for="floatingPassword">List the sectors that your product is serving:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.problem_description class="form-control" %}
+                    <label for="floatingPassword">Problems addressed by the product or service:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.solution_description class="form-control" %}
+                    <label for="floatingPassword">Describe how the product or service or idea will address the problems above:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.competitors_description class="form-control" %}
+                    <label for="floatingPassword">Briefly describe competitors and your key advantage over the competition</label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.market_potential class="form-control" %}
+                    <label for="floatingPassword">Briefly describe your product or service market potential (e.g. reach, number of clients, transactions, etc)</label>
+                </div>
+
+                <div class="form-check mb-3">
+                    {% render_field form.have_technical_documentation class="form-check-input" id="have_technical_documentation" %}
+                    <label class="form-check-label" for="{{ form.have_technical_documentation.id_for_label }}">Have Technical Documentation</label>
+                </div>
+                <div id="technical_documentation_field" style="display: none;">
+                    <div class="form-floating mb-3">
+                        {% render_field form.technical_documentation class="form-control" %}
+                        <label for="floatingPassword">Technical Documentation</label>
+                    </div>
+                </div>
+
+                <div class="form-check mb-3">
+                    {% render_field form.have_ursb_registration_number class="form-check-input" id="have_ursb_registration_number" %}
+                    <label class="form-check-label" for="{{ form.have_ursb_registration_number.id_for_label }}">Have URSB Registration Number</label>
+                </div>
+                <div id="ursb_registration_number_field" style="display: none;">
+                    <div class="form-floating mb-3">
+                        {% render_field form.ursb_registration_number class="form-control" %}
+                        <label for="floatingPassword">URSB Registration Number</label>
+                    </div>
+                </div>
+
+                <div class="form-check mb-3">
+                    {% render_field form.have_documented_processes class="form-check-input" id="have_documented_processes" %}
+                    <label class="form-check-label" for="{{ form.have_documented_processes.id_for_label }}">Have Documented Processes</label>
+                </div>
+                <div id="documented_processes_field" style="display: none;">
+                    <div class="form-floating mb-3">
+                        {% render_field form.documented_processes class="form-control" %}
+                        <label for="floatingPassword">Documented Processes</label>
+                    </div>
+                </div>
+
+                <div class="form-check mb-3">
+                    {% render_field form.have_ura_registration_number class="form-check-input" id="have_ura_registration_number" %}
+                    <label class="form-check-label" for="{{ form.have_ura_registration_number.id_for_label }}">Have URA Registration Number</label>
+                </div>
+                <div id="ura_registration_number_field" style="display: none;">
+                    <div class="form-floating mb-3">
+                        {% render_field form.ura_registration_number class="form-control" %}
+                        <label for="floatingPassword">URA Registration Number</label>
+                    </div>
+                </div>
+
+                <div class="form-check mb-3">
+                    {% render_field form.have_pdpo_registration_number class="form-check-input" id="have_pdpo_registration_number" %}
+                    <label class="form-check-label" for="{{ form.have_pdpo_registration_number.id_for_label }}">Have PDPO Registration Number</label>
+                </div>
+                <div id="pdpo_registration_number_field" style="display: none;">
+                    <div class="form-floating mb-3">
+                        {% render_field form.pdpo_registration_number class="form-control" %}
+                        <label for="floatingPassword">PDPO Registration Number</label>
+                    </div>
+                </div>
+
+                <!-- Add other fields as needed -->
+                <div class="form-floating mb-3">
+                    {% render_field form.funding_amount class="form-control" %}
+                    <label for="floatingPassword">Kindly indicate the amount of funding raised: </label>
+                </div>
+                <div class="form-floating mb-3">
+                    {% render_field form.hub_requirements class="form-control" %}
+                    <label for="floatingPassword">Kindly list below the requirements or support that you seek from the National ICT Innovation Hub</label>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#have_technical_documentation').change(function() {
+        if(this.checked) {
+            $('#technical_documentation_field').show();
+        } else {
+            $('#technical_documentation_field').hide();
+        }
+    });
+
+    $('#have_ursb_registration_number').change(function() {
+        if(this.checked) {
+            $('#ursb_registration_number_field').show();
+        } else {
+            $('#ursb_registration_number_field').hide();
+        }
+    });
+
+    $('#have_documented_processes').change(function() {
+        if(this.checked) {
+            $('#documented_processes_field').show();
+        } else {
+            $('#documented_processes_field').hide();
+        }
+    });
+
+    $('#have_ura_registration_number').change(function() {
+        if(this.checked) {
+            $('#ura_registration_number_field').show();
+        } else {
+            $('#ura_registration_number_field').hide();
+        }
+    });
+
+    $('#have_pdpo_registration_number').change(function() {
+        if(this.checked) {
+            $('#pdpo_registration_number_field').show();
+        } else {
+            $('#pdpo_registration_number_field').hide();
+        }
+    });
+
+    // Add similar logic for other conditional fields
+});
+</script>
+
+{% endblock content %}

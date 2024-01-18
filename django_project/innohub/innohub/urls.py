@@ -20,6 +20,10 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')), 
     path('ticket/', include('ticket.urls')),
     path('complaint/', include('complaint.urls')),
+    path('ideation/', include('ideation.urls')),
+    path('incubator/', include('incubator.urls')),
+    path('accelerator/', include('accelerator.urls')),
+    path('ictsme/', include('ictsme.urls')),
     # For anything not caught by a more specific rule above, hand over to
     # the page serving mechanism. This should be the last pattern in
     # the list:

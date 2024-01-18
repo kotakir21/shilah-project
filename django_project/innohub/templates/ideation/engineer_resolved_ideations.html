@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    {% for ideation in ideations %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ideation.ideation_title}} #{{ideation.ideation_id}}</h5>
+                <p class="card-text">
+                    {% if ideation.status == 'Pending' %}
+                    <span class="badge bg-warning">Pending</span>
+                    {% elif ideation.status == 'Active' %}
+                    <span class="badge bg-success">Active</span>
+                    {% elif ideation.status == 'Resolved' %}
+                    <span class="badge bg-danger">Resolved</span>
+                    {% endif %}
+                </p>
+            </div>
+            <a href="{% url 'ideation-details' ideation.ideation_id %}" class="btn btn-primary btn-sm">View Details</a>
+            <div class="card-footer">
+                <small class="text-muted">Created {{ideation.created_on|naturaltime}}</small>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock content %}

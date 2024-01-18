@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    {% for ictsme in ictsmes %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ictsme.ictsme_title}} #{{ictsme.ictsme_id}}</h5>
+                <p class="card-text">
+                    {% if ictsme.status == 'Pending' %}
+                    <span class="badge bg-warning">Pending</span>
+                    {% elif ictsme.status == 'Active' %}
+                    <span class="badge bg-success">Active</span>
+                    {% elif ictsme.status == 'Resolved' %}
+                    <span class="badge bg-danger">Resolved</span>
+                    {% endif %}
+                </p>
+            </div>
+            <a href="{% url 'ictsme-details' ictsme.ictsme_id %}" class="btn btn-primary btn-sm">View Details</a>
+            <div class="card-footer">
+                <small class="text-muted">Created {{ictsme.created_on|naturaltime}}</small>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock content %}

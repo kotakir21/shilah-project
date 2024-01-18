@@ -27,30 +27,16 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
-                    {% if request.user.is_customer %}
+                    {% if request.user.is_customer or request.user.is_engineer %}
+                    <!-- Tickets -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownTickets" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             Tickets
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'customer-active-tickets' %}">Active Tickets</a></li>
-                            <li><a class="dropdown-item" href="{% url 'customer-resolved-tickets' %}">Resolved Tickets</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                    {% elif request.user.is_engineer %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Tickets
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'engineer-active-tickets' %}">Active Tickets</a></li>
-                            <li><a class="dropdown-item" href="{% url 'engineer-resolved-tickets' %}">Resolved Tickets</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownTickets">
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-tickets' %}{% else %}{% url 'engineer-active-tickets' %}{% endif %}">Active Tickets</a></li>
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-tickets' %}{% else %}{% url 'engineer-resolved-tickets' %}{% endif %}">Resolved Tickets</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -58,32 +44,16 @@
                         </ul>
                     </li>
                     {% endif %}
-
                     <!-- Complaints -->
-                    {% if request.user.is_customer %}
+                    {% if request.user.is_customer or request.user.is_engineer %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownComplaints" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            complaints
+                            Complaints
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'customer-active-complaints' %}">Active complaints</a></li>
-                            <li><a class="dropdown-item" href="{% url 'customer-resolved-complaints' %}">Resolved complaints</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                    {% elif request.user.is_engineer %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            complaints
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{% url 'engineer-active-complaints' %}">Active complaints</a></li>
-                            <li><a class="dropdown-item" href="{% url 'engineer-resolved-complaints' %}">Resolved complaints</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownComplaints">
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-complaints' %}{% else %}{% url 'engineer-active-complaints' %}{% endif %}">Active Complaints</a></li>
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-complaints' %}{% else %}{% url 'engineer-resolved-complaints' %}{% endif %}">Resolved Complaints</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -91,6 +61,43 @@
                         </ul>
                     </li>
                     {% endif %}
+                    <!-- Apply for Space -->
+                    {% if request.user.is_customer or request.user.is_engineer %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownApplyForSpace" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Apply for Space
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownApplyForSpace">
+                            <!-- Ideations -->
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-ideations' %}{% else %}{% url 'engineer-active-ideations' %}{% endif %}">Active Ideations</a></li>
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-ideations' %}{% else %}{% url 'engineer-resolved-ideations' %}{% endif %}">Resolved Ideations</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <!-- Incubators -->
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-incubators' %}{% else %}{% url 'engineer-active-incubators' %}{% endif %}">Active Incubators</a></li>
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-incubators' %}{% else %}{% url 'engineer-resolved-incubators' %}{% endif %}">Resolved Incubators</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <!-- Accelerators -->
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-accelerators' %}{% else %}{% url 'engineer-active-accelerators' %}{% endif %}">Active Accelerators</a></li>
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-accelerators' %}{% else %}{% url 'engineer-resolved-accelerators' %}{% endif %}">Resolved Accelerators</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <!-- ICTSMEs -->
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-ictsmes' %}{% else %}{% url 'engineer-active-ictsmes' %}{% endif %}">Active ICTSMEs</a></li>
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-ictsmes' %}{% else %}{% url 'engineer-resolved-ictsmes' %}{% endif %}">Resolved ICTSMEs</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    <!-- User email -->
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{request.user.email}}</a>

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ictsme Entry Form ID</th>
+                    <th scope="col">ictsme Title</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Date Created</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ictsme in ictsmes %}
+                <tr>
+                    <td><a href="{% url 'ictsme-details' ictsme.ictsme_id %}">{{ictsme.ictsme_id}}</a></td>
+                    <td>{{ictsme.ictsme_title}}</td>
+                    <td>{{ictsme.customer}}</td>
+                    <td>{{ictsme.created_on}}</td>
+                    <td><a href="{% url 'assign-ictsme' ictsme.ictsme_id %}" class="btn btn-outline-primary btn-sm">Assign to Engineer</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">incubator Entry Form ID</th>
+                    <th scope="col">incubator Title</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Date Created</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for incubator in incubators %}
+                <tr>
+                    <td><a href="{% url 'incubator-details' incubator.incubator_id %}">{{incubator.incubator_id}}</a></td>
+                    <td>{{incubator.incubator_title}}</td>
+                    <td>{{incubator.customer}}</td>
+                    <td>{{incubator.created_on}}</td>
+                    <td><a href="{% url 'assign-incubator' incubator.incubator_id %}" class="btn btn-outline-primary btn-sm">Assign to Engineer</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
