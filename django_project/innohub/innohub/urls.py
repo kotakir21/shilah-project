@@ -16,7 +16,7 @@ urlpatterns = [
     path("docs/", include(wagtaildocs_urls)),
     # Search
     path("search/", include(crx_search_urls)),
-    path('', include('dashboard.urls')), 
+    path('dashboard', include('dashboard.urls')), 
     path('accounts/', include('accounts.urls')), 
     path('ticket/', include('ticket.urls')),
     path('complaint/', include('complaint.urls')),
@@ -27,7 +27,7 @@ urlpatterns = [
     # For anything not caught by a more specific rule above, hand over to
     # the page serving mechanism. This should be the last pattern in
     # the list:
-    path("pages/", include(crx_urls)),
+    path("", include(crx_urls)),
     # Alternatively, if you want pages to be served from a subpath
     # of your site, rather than the site root:
     #    path("pages/", include(crx_urls)),

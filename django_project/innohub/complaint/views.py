@@ -7,10 +7,15 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from .form import CreateComplaintForm, AssignComplaintForm  # Update form imports
 from .models import Complaint  # Update model import
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 
 User = get_user_model()
 
+def is_innovator(user):
+    return user.is_authenticated and not user.is_staff
 # cx can create a complaint from here 
+@user_passes_test(is_innovator, login_url='dashboard')
 def create_complaint(request):  # Rename the function
     if request.method == 'POST':
         form = CreateComplaintForm(request.POST)  # Update form reference
@@ -41,12 +46,14 @@ def create_complaint(request):  # Rename the function
         return render(request, 'complaint/create_complaint.html', context)  # Update template reference
             
 # cx can see all active complaints
+@login_required
 def customer_active_complaints(request):  # Rename the function
     complaints = Complaint.objects.filter(customer=request.user, is_resolved=False).order_by('-created_on')  # Update model reference
     context = {'complaints': complaints}  # Update context
     return render(request, 'complaint/customer_active_complaints.html', context)  # Update template reference
 
 # cx can see all resolved complaints
+@login_required
 def customer_resolved_complaints(request):  # Rename the function
     complaints = Complaint.objects.filter(customer=request.user, is_resolved=True).order_by('-created_on')  # Update model reference
     context = {'complaints': complaints}  # Update context
@@ -59,12 +66,14 @@ def engineer_active_complaints(request):  # Rename the function
     return render(request, 'complaint/engineer_active_complaints.html', context)  # Update template reference
 
 # engineer can see all his/her resolved complaints
+@login_required
 def engineer_resolved_complaints(request):  # Rename the function
     complaints = Complaint.objects.filter(engineer=request.user, is_resolved=True).order_by('-created_on')  # Update model reference
     context = {'complaints': complaints}  # Update context
     return render(request, 'complaint/engineer_resolved_complaints.html', context)  # Update template reference
 
 # assign complaints to engineers
+@login_required
 def assign_complaint(request, complaint_id):  # Rename the function
     complaint = Complaint.objects.get(complaint_id=complaint_id)  # Update model reference
     if request.method == 'POST':
@@ -86,17 +95,24 @@ def assign_complaint(request, complaint_id):  # Rename the function
         return render(request, 'complaint/assign_complaint.html', context)  # Update template reference
 
 # complaint details
+
+@login_required
 def complaint_details(request, complaint_id):  # Rename the function
     complaint = Complaint.objects.get(complaint_id=complaint_id)  # Update model reference
     context = {'complaint': complaint}  # Update context
     return render(request, 'complaint/complaint_details.html', context)  # Update template reference
 
 # complaint queue (for only admins)
+def is_admin(user):
+    return user.is_authenticated and user.is_staff
+
+@user_passes_test(is_admin)
 def complaint_queue(request):  # Rename the function
     complaints = Complaint.objects.filter(is_assigned_to_engineer=False)  # Update model reference
     context = {'complaints': complaints}  # Update context
     return render(request, 'complaint/complaint_queue.html', context)  # Update template reference
 
+@user_passes_test(is_admin)
 def resolve_complaint(request, complaint_id):  # Rename the function
     complaint = Complaint.objects.get(complaint_id=complaint_id)  # Update model reference
     if request.method == 'POST':

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+<div class="container mt-5">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}" role="alert">
+        <b>{{message}}</b>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% block content %}
+    {% endblock content %}
+
+</div>

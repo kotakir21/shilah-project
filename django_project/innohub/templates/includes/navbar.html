@@ -1,0 +1,85 @@
+<!-- Navbar with Logo -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/media/images/black_white_hub_logo.original.format-webp.webp" alt="innohub">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
+                aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <!-- Main Navigation Links -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                {% if request.user.is_customer or request.user.is_engineer %}
+                    <!-- Tickets -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownTickets" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Tickets
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownTickets">
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-tickets' %}{% else %}{% url 'engineer-active-tickets' %}{% endif %}">Active Tickets</a></li>
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-tickets' %}{% else %}{% url 'engineer-resolved-tickets' %}{% endif %}">Resolved Tickets</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+                 <!-- Complaints -->
+                 {% if request.user.is_customer or request.user.is_engineer %}
+                 <li class="nav-item dropdown">
+                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownComplaints" role="button"
+                         data-bs-toggle="dropdown" aria-expanded="false">
+                         Complaints
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownComplaints">
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-complaints' %}{% else %}{% url 'engineer-active-complaints' %}{% endif %}">Active Complaints</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-complaints' %}{% else %}{% url 'engineer-resolved-complaints' %}{% endif %}">Resolved Complaints</a></li>
+                         <li><hr class="dropdown-divider"></li>
+                         <li><a class="dropdown-item" href="#">Something else here</a></li>
+                     </ul>
+                 </li>
+                 {% endif %}
+                 <!-- Apply for Space -->
+                 {% if request.user.is_customer or request.user.is_engineer %}
+                 <li class="nav-item dropdown">
+                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownApplyForSpace" role="button"
+                         data-bs-toggle="dropdown" aria-expanded="false">
+                         Space Applications
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownApplyForSpace">
+                         <!-- Ideations -->
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-ideations' %}{% else %}{% url 'engineer-active-ideations' %}{% endif %}">Active Ideation Stage</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-ideations' %}{% else %}{% url 'engineer-resolved-ideations' %}{% endif %}">Resolved Ideation Stage</a></li>
+                         <li><hr class="dropdown-divider"></li>
+                         <!-- Incubators -->
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-incubators' %}{% else %}{% url 'engineer-active-incubators' %}{% endif %}">Active Incubator Stage</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-incubators' %}{% else %}{% url 'engineer-resolved-incubators' %}{% endif %}">Resolved Incubator Stage</a></li>
+                         <li><hr class="dropdown-divider"></li>
+                         <!-- Accelerators -->
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-accelerators' %}{% else %}{% url 'engineer-active-accelerators' %}{% endif %}">Active Accelerator Stage</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-accelerators' %}{% else %}{% url 'engineer-resolved-accelerators' %}{% endif %}">Resolved Accelerator Stage</a></li>
+                         <li><hr class="dropdown-divider"></li>
+                         <!-- ICTSMEs -->
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-ictsmes' %}{% else %}{% url 'engineer-active-ictsmes' %}{% endif %}">Active ICTSME Stage</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-ictsmes' %}{% else %}{% url 'engineer-resolved-ictsmes' %}{% endif %}">Resolved ICTSME Stage</a></li>
+                         <li><hr class="dropdown-divider"></li>
+                     </ul>
+                 </li>
+                 {% endif %}
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="nav-link disabled text-light">{{request.user.email}}</span>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a href="{% url 'logout' %}" class="btn btn-warning btn-sm">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
