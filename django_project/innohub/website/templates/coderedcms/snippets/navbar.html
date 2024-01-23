@@ -34,7 +34,7 @@
             {% if request.user.is_authenticated %}
               {# Add logout button when user is logged in #}
               <li class="nav-item">
-                <form action="{% url 'logout' %}" method="post">
+                <form action="{% url 'account_logout' %}" method="post">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-outline-primary">{% trans "Logout" %}</button>
                 </form>
@@ -42,11 +42,11 @@
             {% else %}
               {# Add login button when user is not logged in #}
               <li class="nav-item">
-                <a class="btn btn-outline-primary" href="{% url 'login' %}">{% trans "Login" %}</a>
+                <a class="btn btn-outline-primary" href="{% url 'account_login' %}">{% trans "Login" %}</a>
               </li>
               {# Add signup button when user is not logged in #}
               <li class="nav-item">
-                <a class="btn btn-primary" href="{% url 'register-customer' %}">{% trans "Signup" %}</a>
+                <a class="btn btn-primary" href="{% url 'account_signup' %}">{% trans "Signup" %}</a>
               </li>
             {% endif %}
           </ul>

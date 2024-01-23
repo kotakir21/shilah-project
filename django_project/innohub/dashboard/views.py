@@ -22,22 +22,22 @@ def dashboard(request):
         }
 
         return render(request, 'dashboard/customer_dashboard.html', context)
-    elif request.user.is_engineer:
-        # Tickets for engineer
-        tickets = Ticket.objects.filter(engineer=request.user).count()
-        active_tickets = Ticket.objects.filter(engineer=request.user, is_resolved=False).count()
-        closed_tickets = Ticket.objects.filter(engineer=request.user, is_resolved=True).count()
+    elif request.user.is_officer:
+        # Tickets for officer
+        tickets = Ticket.objects.filter(officer=request.user).count()
+        active_tickets = Ticket.objects.filter(officer=request.user, is_resolved=False).count()
+        closed_tickets = Ticket.objects.filter(officer=request.user, is_resolved=True).count()
 
-        # Complaints for engineer
-        complaints = Complaint.objects.filter(engineer=request.user).count()
-        active_complaints = Complaint.objects.filter(engineer=request.user, is_resolved=False).count()
-        closed_complaints = Complaint.objects.filter(engineer=request.user, is_resolved=True).count()
+        # Complaints for officer
+        complaints = Complaint.objects.filter(officer=request.user).count()
+        active_complaints = Complaint.objects.filter(officer=request.user, is_resolved=False).count()
+        closed_complaints = Complaint.objects.filter(officer=request.user, is_resolved=True).count()
 
         context = {
             'tickets': tickets, 'active_tickets': active_tickets, 'closed_tickets': closed_tickets,
             'complaints': complaints, 'active_complaints': active_complaints, 'closed_complaints': closed_complaints,
         }
 
-        return render(request, 'dashboard/engineer_dashboard.html', context)
+        return render(request, 'dashboard/officer_dashboard.html', context)
     elif request.user.is_superuser:
         return render(request, 'dashboard/admin_dashboard.html')

@@ -24,6 +24,7 @@ urlpatterns = [
     path('incubator/', include('incubator.urls')),
     path('accelerator/', include('accelerator.urls')),
     path('ictsme/', include('ictsme.urls')),
+    path('accounts/', include('allauth.urls')),
     # For anything not caught by a more specific rule above, hand over to
     # the page serving mechanism. This should be the last pattern in
     # the list:

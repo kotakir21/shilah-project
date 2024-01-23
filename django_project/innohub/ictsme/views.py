@@ -52,36 +52,36 @@ def customer_resolved_ictsmes(request):  # Rename the function
     context = {'ictsmes': ictsmes}  # Update context
     return render(request, 'ictsme/customer_resolved_ictsmes.html', context)  # Update template reference
 
-# engineer can see all his/her active ictsmes
-def engineer_active_ictsmes(request):  # Rename the function
-    ictsmes = Ictsme.objects.filter(engineer=request.user, is_resolved=False).order_by('-created_on')  # Update model reference
+# officer can see all his/her active ictsmes
+def officer_active_ictsmes(request):  # Rename the function
+    ictsmes = Ictsme.objects.filter(officer=request.user, is_resolved=False).order_by('-created_on')  # Update model reference
     context = {'ictsmes': ictsmes}  # Update context
-    return render(request, 'ictsme/engineer_active_ictsmes.html', context)  # Update template reference
+    return render(request, 'ictsme/officer_active_ictsmes.html', context)  # Update template reference
 
-# engineer can see all his/her resolved ictsmes
-def engineer_resolved_ictsmes(request):  # Rename the function
-    ictsmes = Ictsme.objects.filter(engineer=request.user, is_resolved=True).order_by('-created_on')  # Update model reference
+# officer can see all his/her resolved ictsmes
+def officer_resolved_ictsmes(request):  # Rename the function
+    ictsmes = Ictsme.objects.filter(officer=request.user, is_resolved=True).order_by('-created_on')  # Update model reference
     context = {'ictsmes': ictsmes}  # Update context
-    return render(request, 'ictsme/engineer_resolved_ictsmes.html', context)  # Update template reference
+    return render(request, 'ictsme/officer_resolved_ictsmes.html', context)  # Update template reference
 
-# assign ictsmes to engineers
+# assign ictsmes to officers
 def assign_ictsme(request, ictsme_id):  # Rename the function
     ictsme = Ictsme.objects.get(ictsme_id=ictsme_id)  # Update model reference
     if request.method == 'POST':
         form = AssignictsmeForm(request.POST, instance=ictsme)  # Update form reference
         if form.is_valid():
             var = form.save(commit=False)
-            var.is_assigned_to_engineer = True
+            var.is_assigned_to_officer = True
             var.status = 'Active'
             var.save()
-            messages.success(request, f'ictsme has been assigned to {var.engineer}')
+            messages.success(request, f'ictsme has been assigned to {var.officer}')
             return redirect('ictsme-queue')  # Update redirect
         else:
             messages.warning(request, 'Something went wrong. Please check form input')
             return redirect('assign-ictsme')  # Update redirect
     else:
         form = AssignictsmeForm(instance=ictsme)  # Update form reference
-        form.fields['engineer'].queryset = User.objects.filter(is_engineer=True)
+        form.fields['officer'].queryset = User.objects.filter(is_officer=True)
         context = {'form': form, 'ictsme': ictsme}  # Update context
         return render(request, 'ictsme/assign_ictsme.html', context)  # Update template reference
 
@@ -93,7 +93,7 @@ def ictsme_details(request, ictsme_id):  # Rename the function
 
 # ictsme queue (for only admins)
 def ictsme_queue(request):  # Rename the function
-    ictsmes = Ictsme.objects.filter(is_assigned_to_engineer=False)  # Update model reference
+    ictsmes = Ictsme.objects.filter(is_assigned_to_officer=False)  # Update model reference
     context = {'ictsmes': ictsmes}  # Update context
     return render(request, 'ictsme/ictsme_queue.html', context)  # Update template reference
 

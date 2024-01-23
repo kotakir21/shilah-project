@@ -34,6 +34,6 @@ class CreateacceleratorForm(forms.ModelForm):
 class AssignacceleratorForm(forms.ModelForm):
     class Meta:
         model = Accelerator
-        fields = ['engineer']
+        fields = ['officer']
 
 

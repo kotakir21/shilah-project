@@ -20,7 +20,7 @@ INSTALLED_APPS += [  # noqa
     "django_sass",
 ]
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+#EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 WAGTAIL_CACHE = False
 

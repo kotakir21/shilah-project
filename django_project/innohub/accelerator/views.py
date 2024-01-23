@@ -52,36 +52,36 @@ def customer_resolved_accelerators(request):  # Rename the function
     context = {'accelerators': accelerators}  # Update context
     return render(request, 'accelerator/customer_resolved_accelerators.html', context)  # Update template reference
 
-# engineer can see all his/her active accelerators
-def engineer_active_accelerators(request):  # Rename the function
-    accelerators = Accelerator.objects.filter(engineer=request.user, is_resolved=False).order_by('-created_on')  # Update model reference
+# officer can see all his/her active accelerators
+def officer_active_accelerators(request):  # Rename the function
+    accelerators = Accelerator.objects.filter(officer=request.user, is_resolved=False).order_by('-created_on')  # Update model reference
     context = {'accelerators': accelerators}  # Update context
-    return render(request, 'accelerator/engineer_active_accelerators.html', context)  # Update template reference
+    return render(request, 'accelerator/officer_active_accelerators.html', context)  # Update template reference
 
-# engineer can see all his/her resolved accelerators
-def engineer_resolved_accelerators(request):  # Rename the function
-    accelerators = Accelerator.objects.filter(engineer=request.user, is_resolved=True).order_by('-created_on')  # Update model reference
+# officer can see all his/her resolved accelerators
+def officer_resolved_accelerators(request):  # Rename the function
+    accelerators = Accelerator.objects.filter(officer=request.user, is_resolved=True).order_by('-created_on')  # Update model reference
     context = {'accelerators': accelerators}  # Update context
-    return render(request, 'accelerator/engineer_resolved_accelerators.html', context)  # Update template reference
+    return render(request, 'accelerator/officer_resolved_accelerators.html', context)  # Update template reference
 
-# assign accelerators to engineers
+# assign accelerators to officers
 def assign_accelerator(request, accelerator_id):  # Rename the function
     accelerator = Accelerator.objects.get(accelerator_id=accelerator_id)  # Update model reference
     if request.method == 'POST':
         form = AssignacceleratorForm(request.POST, instance=accelerator)  # Update form reference
         if form.is_valid():
             var = form.save(commit=False)
-            var.is_assigned_to_engineer = True
+            var.is_assigned_to_officer = True
             var.status = 'Active'
             var.save()
-            messages.success(request, f'accelerator has been assigned to {var.engineer}')
+            messages.success(request, f'accelerator has been assigned to {var.officer}')
             return redirect('accelerator-queue')  # Update redirect
         else:
             messages.warning(request, 'Something went wrong. Please check form input')
             return redirect('assign-accelerator')  # Update redirect
     else:
         form = AssignacceleratorForm(instance=accelerator)  # Update form reference
-        form.fields['engineer'].queryset = User.objects.filter(is_engineer=True)
+        form.fields['officer'].queryset = User.objects.filter(is_officer=True)
         context = {'form': form, 'accelerator': accelerator}  # Update context
         return render(request, 'accelerator/assign_accelerator.html', context)  # Update template reference
 
@@ -93,7 +93,7 @@ def accelerator_details(request, accelerator_id):  # Rename the function
 
 # accelerator queue (for only admins)
 def accelerator_queue(request):  # Rename the function
-    accelerators = Accelerator.objects.filter(is_assigned_to_engineer=False)  # Update model reference
+    accelerators = Accelerator.objects.filter(is_assigned_to_officer=False)  # Update model reference
     context = {'accelerators': accelerators}  # Update context
     return render(request, 'accelerator/accelerator_queue.html', context)  # Update template reference
 

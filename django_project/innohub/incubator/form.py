@@ -36,6 +36,6 @@ class CreateincubatorForm(forms.ModelForm):
 class AssignincubatorForm(forms.ModelForm):
     class Meta:
         model = Incubator
-        fields = ['engineer']
+        fields = ['officer']
 
 

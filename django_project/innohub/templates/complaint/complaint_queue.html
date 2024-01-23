@@ -21,7 +21,7 @@
                     <td>{{complaint.complaint_title}}</td>
                     <td>{{complaint.customer}}</td>
                     <td>{{complaint.created_on}}</td>
-                    <td><a href="{% url 'assign-complaint' complaint.complaint_id %}" class="btn btn-outline-primary btn-sm">Assign to Engineer</a></td>
+                    <td><a href="{% url 'assign-complaint' complaint.complaint_id %}" class="btn btn-outline-primary btn-sm">Assign to officer</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

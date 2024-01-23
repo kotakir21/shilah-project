@@ -5,7 +5,7 @@ User = get_user_model()
 
 class Incubator(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='incubators_customer')
-    engineer = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='incubators_engineer', null=True, blank=True)
+    officer = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='incubators_officer', null=True, blank=True)
     incubator_id = models.CharField(max_length=15, unique=True)
     incubator_title = models.CharField(max_length=50)
     status = models.CharField(max_length=20, choices=(('Active', 'Active'), ('Pending', 'Pending'), ('Resolved', 'Resolved')), default='Pending')
@@ -13,7 +13,7 @@ class Incubator(models.Model):
     last_modified = models.DateTimeField(auto_now=True)
     is_resolved = models.BooleanField(default=False)
     severity = models.CharField(max_length=5, choices=(('A', 'A'), ('B', 'B')), default='B')
-    is_assigned_to_engineer = models.BooleanField(default=False)
+    is_assigned_to_officer = models.BooleanField(default=False)
     resolution_steps = models.TextField(blank=True, null=True)
     #incubator specific fields
     position_in_company = models.CharField(
@@ -32,17 +32,17 @@ class Incubator(models.Model):
     competitors_description = models.TextField()
     market_potential = models.TextField()
     have_technical_documentation = models.BooleanField(default=False)
-    technical_documentation = models.TextField()
+    technical_documentation = models.TextField(blank=True)
     have_ursb_registration_number = models.BooleanField(default=False)
-    ursb_registration_number = models.CharField(max_length=50)
+    ursb_registration_number = models.CharField(max_length=50, blank=True, null=True)
     have_documented_processes = models.BooleanField(default=False)
-    documented_processes = models.TextField()
+    documented_processes = models.TextField(blank=True)
     have_documented_processes = models.BooleanField(default=False)
     have_ura_registration_number = models.BooleanField(default=False)    
-    ura_registration_number = models.CharField(max_length=50)
+    ura_registration_number = models.CharField(max_length=50, blank=True, null=True)
     have_pdpo_registration_number = models.BooleanField(default=False)
     pdpo_registration_number = models.CharField(max_length=50, blank=True, null=True)
-    funding_amount = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True)
-    hub_requirements = models.TextField()
+    funding_amount = models.CharField(max_length=100, blank=True, null=True)
+    hub_requirements = models.TextField(blank=True)
 
 

@@ -24,4 +24,4 @@ class CreateictsmeForm(forms.ModelForm):
 class AssignictsmeForm(forms.ModelForm):
     class Meta:
         model = Ictsme
-        fields = ['engineer']
+        fields = ['officer']

@@ -3,82 +3,88 @@
 {% load widget_tweaks %}
 
 {% block content %}
-
-<div class="container col-xl-12 col-xxl-10 px-4 py-5">
-    <div class="row align-items-center g-lg-5 py-5">
-        <div class="col-lg-6 text-center text-lg-start">
-            <div class="h-100">
-                <img src="{% static 'assets/support.png' %}" class="card-img-top" alt="">
-            </div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'dashboard/sidebar.html' %}
         </div>
-        <div class="col-md-10 mx-auto col-lg-6">
-            <h2 class="display-6 fw-bold lh-1 mb-3 text-center">Create New Complaint</h2>
-            <form class="p-4 p-md-5 border rounded-3 bg-light" method="POST">
-                {% csrf_token %}
-                <div class="form-floating mb-3">
-                    {% render_field form.complaint_title class="form-control" %}
-                    <label for="floatingInput">Complaint Title</label>
-                </div>
-                <div class="form-floating mb-3">
-                    {% render_field form.complainant_name class="form-control" %}
-                    <label for="floatingPassword">Complainant Name</label>
-                </div>
-                <div class="form-floating mb-3">
-                    {% render_field form.complainant_phone class="form-control" %}
-                    <label for="floatingPassword">Complainant Phone</label>
-                </div>
-                <div class="form-check mb-3">
-                    {% render_field form.is_submitted_for_another class="form-check-input" id="is_submitted_for_another" %}
-                    <label class="form-check-label" for="{{ form.is_submitted_for_another.id_for_label }}">Submitted for Another Innovator/Start-up</label>
-                </div>
-                <div id="other_innovator_fields" style="display: none;">
-                    <div class="form-floating mb-3">
-                        {% render_field form.other_innovator_name class="form-control" %}
-                        <label for="floatingPassword">Name of Directly Concerned Innovator/Start-up</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        {% render_field form.other_innovator_contact class="form-control" %}
-                        <label for="floatingPassword">Contact of Directly Concerned Innovator/Start-up</label>
-                    </div>
-                </div>
-                <div class="form-floating mb-3">
-                    {% render_field form.complaint_details class="form-control" %}
-                    <label for="floatingPassword">Complaint Details</label>
-                </div>
-                <div class="form-check mb-3">
-                    {% render_field form.is_first_time_submission class="form-check-input" id="is_first_time_submission" %}
-                    <label class="form-check-label" for="{{ form.is_first_time_submission.id_for_label }}">First Time Submission</label>
-                </div>
-                <div class="form-floating mb-3" id="additional_information_field" style="display: none;">
-                    {% render_field form.additional_information class="form-control" %}
-                    <label for="floatingPassword">Additional Information</label>
-                </div>
+        <div class="col-md-9">
+            <div class="container col-xl-12 col-xxl-10 px-4 py-5">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-md-10">
+                        <h2 class="display-6 fw-bold lh-1 mb-3 text-center">Log a New Complaint</h2>
+                        <form class="p-4 p-md-5 border rounded-3 bg-light" method="POST">
+                            {% csrf_token %}
 
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
-            </form>
+                            <div class="mb-3">
+                                <label for="{{ form.complaint_title.id_for_label }}" class="form-label">Complaint Title</label>
+                                {% render_field form.complaint_title class="form-control" %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="{{ form.complainant_name.id_for_label }}" class="form-label">Complainant Name</label>
+                                {% render_field form.complainant_name class="form-control" %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="{{ form.complainant_phone.id_for_label }}" class="form-label">Complainant Phone</label>
+                                {% render_field form.complainant_phone class="form-control" %}
+                            </div>
+                            <div class="form-check mb-3">
+                                {% render_field form.is_submitted_for_another class="form-check-input" id="is_submitted_for_another" %}
+                                <label class="form-check-label" for="{{ form.is_submitted_for_another.id_for_label }}">Are you submitting for Another Innovator or Start-up?</label>
+                            </div>
+                            <div id="other_innovator_fields" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="{{ form.other_innovator_name.id_for_label }}" class="form-label">Name of Directly Concerned Innovator/Start-up</label>
+                                    {% render_field form.other_innovator_name class="form-control" %}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="{{ form.other_innovator_contact.id_for_label }}" class="form-label">Contact of Directly Concerned Innovator/Start-up</label>
+                                    {% render_field form.other_innovator_contact class="form-control" %}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="{{ form.complaint_details.id_for_label }}" class="form-label">Complaint Details</label>
+                                {% render_field form.complaint_details class="form-control" %}
+                            </div>
+                            <div class="form-check mb-3">
+                                {% render_field form.is_first_time_submission class="form-check-input" id="is_first_time_submission" %}
+                                <label class="form-check-label" for="{{ form.is_first_time_submission.id_for_label }}">Are you submitting this complaint for the first time?</label>
+                            </div>
+                            <div id="additional_information_field" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="{{ form.additional_information.id_for_label }}" class="form-label">Additional Information</label>
+                                    {% render_field form.additional_information class="form-control" %}
+                                </div>
+                            </div>
+
+                            <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#is_submitted_for_another').change(function() {
-        if(this.checked) {
-            $('#other_innovator_fields').show();
-        } else {
-            $('#other_innovator_fields').hide();
-        }
-    });
+    $(document).ready(function() {
+        $('#is_submitted_for_another').change(function() {
+            if(this.checked) {
+                $('#other_innovator_fields').show();
+            } else {
+                $('#other_innovator_fields').hide();
+            }
+        });
 
-    $('#is_first_time_submission').change(function() {
-        if(!this.checked) {
-            $('#additional_information_field').show();
-        } else {
-            $('#additional_information_field').hide();
-        }
+        $('#is_first_time_submission').change(function() {
+            if(!this.checked) {
+                $('#additional_information_field').show();
+            } else {
+                $('#additional_information_field').hide();
+            }
+        });
     });
-});
 </script>
 
 {% endblock content %}

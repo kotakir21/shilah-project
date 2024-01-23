@@ -19,4 +19,4 @@ class CreateComplaintForm(forms.ModelForm):
 class AssignComplaintForm(forms.ModelForm):
     class Meta:
         model = Complaint
-        fields = ['engineer']
+        fields = ['officer']

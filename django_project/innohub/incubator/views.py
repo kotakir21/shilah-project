@@ -52,36 +52,36 @@ def customer_resolved_incubators(request):  # Rename the function
     context = {'incubators': incubators}  # Update context
     return render(request, 'incubator/customer_resolved_incubators.html', context)  # Update template reference
 
-# engineer can see all his/her active incubators
-def engineer_active_incubators(request):  # Rename the function
-    incubators = Incubator.objects.filter(engineer=request.user, is_resolved=False).order_by('-created_on')  # Update model reference
+# officer can see all his/her active incubators
+def officer_active_incubators(request):  # Rename the function
+    incubators = Incubator.objects.filter(officer=request.user, is_resolved=False).order_by('-created_on')  # Update model reference
     context = {'incubators': incubators}  # Update context
-    return render(request, 'incubator/engineer_active_incubators.html', context)  # Update template reference
+    return render(request, 'incubator/officer_active_incubators.html', context)  # Update template reference
 
-# engineer can see all his/her resolved incubators
-def engineer_resolved_incubators(request):  # Rename the function
-    incubators = incubator.objects.filter(engineer=request.user, is_resolved=True).order_by('-created_on')  # Update model reference
+# officer can see all his/her resolved incubators
+def officer_resolved_incubators(request):  # Rename the function
+    incubators = incubator.objects.filter(officer=request.user, is_resolved=True).order_by('-created_on')  # Update model reference
     context = {'incubators': incubators}  # Update context
-    return render(request, 'incubator/engineer_resolved_incubators.html', context)  # Update template reference
+    return render(request, 'incubator/officer_resolved_incubators.html', context)  # Update template reference
 
-# assign incubators to engineers
+# assign incubators to officers
 def assign_incubator(request, incubator_id):  # Rename the function
     incubator = Incubator.objects.get(incubator_id=incubator_id)  # Update model reference
     if request.method == 'POST':
         form = AssignincubatorForm(request.POST, instance=incubator)  # Update form reference
         if form.is_valid():
             var = form.save(commit=False)
-            var.is_assigned_to_engineer = True
+            var.is_assigned_to_officer = True
             var.status = 'Active'
             var.save()
-            messages.success(request, f'incubator has been assigned to {var.engineer}')
+            messages.success(request, f'incubator has been assigned to {var.officer}')
             return redirect('incubator-queue')  # Update redirect
         else:
             messages.warning(request, 'Something went wrong. Please check form input')
             return redirect('assign-incubator')  # Update redirect
     else:
         form = AssignincubatorForm(instance=incubator)  # Update form reference
-        form.fields['engineer'].queryset = User.objects.filter(is_engineer=True)
+        form.fields['officer'].queryset = User.objects.filter(is_officer=True)
         context = {'form': form, 'incubator': incubator}  # Update context
         return render(request, 'incubator/assign_incubator.html', context)  # Update template reference
 
@@ -93,7 +93,7 @@ def incubator_details(request, incubator_id):  # Rename the function
 
 # incubator queue (for only admins)
 def incubator_queue(request):  # Rename the function
-    incubators = Incubator.objects.filter(is_assigned_to_engineer=False)  # Update model reference
+    incubators = Incubator.objects.filter(is_assigned_to_officer=False)  # Update model reference
     context = {'incubators': incubators}  # Update context
     return render(request, 'incubator/incubator_queue.html', context)  # Update template reference
 

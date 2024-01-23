@@ -15,7 +15,15 @@ class CreateideationForm(forms.ModelForm):
             'hub_requirements',
             ]
 
+widgets = {
+            'product_name': forms.TextInput(attrs={'required': False}),
+            'position_in_company': forms.Select(attrs={'required': False}),
+            'problem_description': forms.Textarea(attrs={'required': False}),
+            'solution_description': forms.Textarea(attrs={'required': False}),
+            'hub_requirements': forms.Textarea(attrs={'required': False}),
+        }
+
 class AssignideationForm(forms.ModelForm):
     class Meta:
         model = Ideation
-        fields = ['engineer']
+        fields = ['officer']

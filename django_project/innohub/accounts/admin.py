@@ -10,7 +10,7 @@ class CustomUserAdmin(UserAdmin):
             {
                 'fields': (
                     'is_customer', 
-                    'is_engineer'
+                    'is_officer'
                 )
             }
         )

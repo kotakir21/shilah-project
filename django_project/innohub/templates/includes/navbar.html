@@ -14,38 +14,38 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
-                {% if request.user.is_customer or request.user.is_engineer %}
+                {% if request.user.is_customer or request.user.is_officer %}
                     <!-- Tickets -->
                     <li class="nav-item dropdown">
                         <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownTickets" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Tickets
+                            Inquiries
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownTickets">
-                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-tickets' %}{% else %}{% url 'engineer-active-tickets' %}{% endif %}">Active Tickets</a></li>
-                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-tickets' %}{% else %}{% url 'engineer-resolved-tickets' %}{% endif %}">Resolved Tickets</a></li>
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-tickets' %}{% else %}{% url 'officer-active-tickets' %}{% endif %}">Active Inquiries</a></li>
+                            <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-tickets' %}{% else %}{% url 'officer-resolved-tickets' %}{% endif %}">Resolved Inquiries</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
                     </li>
                 {% endif %}
                  <!-- Complaints -->
-                 {% if request.user.is_customer or request.user.is_engineer %}
+                 {% if request.user.is_customer or request.user.is_officer %}
                  <li class="nav-item dropdown">
                      <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownComplaints" role="button"
                          data-bs-toggle="dropdown" aria-expanded="false">
                          Complaints
                      </a>
                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownComplaints">
-                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-complaints' %}{% else %}{% url 'engineer-active-complaints' %}{% endif %}">Active Complaints</a></li>
-                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-complaints' %}{% else %}{% url 'engineer-resolved-complaints' %}{% endif %}">Resolved Complaints</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-complaints' %}{% else %}{% url 'officer-active-complaints' %}{% endif %}">Active Complaints</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-complaints' %}{% else %}{% url 'officer-resolved-complaints' %}{% endif %}">Resolved Complaints</a></li>
                          <li><hr class="dropdown-divider"></li>
                          <li><a class="dropdown-item" href="#">Something else here</a></li>
                      </ul>
                  </li>
                  {% endif %}
                  <!-- Apply for Space -->
-                 {% if request.user.is_customer or request.user.is_engineer %}
+                 {% if request.user.is_customer or request.user.is_officer %}
                  <li class="nav-item dropdown">
                      <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownApplyForSpace" role="button"
                          data-bs-toggle="dropdown" aria-expanded="false">
@@ -53,20 +53,20 @@
                      </a>
                      <ul class="dropdown-menu" aria-labelledby="navbarDropdownApplyForSpace">
                          <!-- Ideations -->
-                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-ideations' %}{% else %}{% url 'engineer-active-ideations' %}{% endif %}">Active Ideation Stage</a></li>
-                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-ideations' %}{% else %}{% url 'engineer-resolved-ideations' %}{% endif %}">Resolved Ideation Stage</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-ideations' %}{% else %}{% url 'officer-active-ideations' %}{% endif %}">Active Ideation Stage</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-ideations' %}{% else %}{% url 'officer-resolved-ideations' %}{% endif %}">Resolved Ideation Stage</a></li>
                          <li><hr class="dropdown-divider"></li>
                          <!-- Incubators -->
-                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-incubators' %}{% else %}{% url 'engineer-active-incubators' %}{% endif %}">Active Incubator Stage</a></li>
-                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-incubators' %}{% else %}{% url 'engineer-resolved-incubators' %}{% endif %}">Resolved Incubator Stage</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-incubators' %}{% else %}{% url 'officer-active-incubators' %}{% endif %}">Active Incubator Stage</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-incubators' %}{% else %}{% url 'officer-resolved-incubators' %}{% endif %}">Resolved Incubator Stage</a></li>
                          <li><hr class="dropdown-divider"></li>
                          <!-- Accelerators -->
-                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-accelerators' %}{% else %}{% url 'engineer-active-accelerators' %}{% endif %}">Active Accelerator Stage</a></li>
-                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-accelerators' %}{% else %}{% url 'engineer-resolved-accelerators' %}{% endif %}">Resolved Accelerator Stage</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-accelerators' %}{% else %}{% url 'officer-active-accelerators' %}{% endif %}">Active Accelerator Stage</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-accelerators' %}{% else %}{% url 'officer-resolved-accelerators' %}{% endif %}">Resolved Accelerator Stage</a></li>
                          <li><hr class="dropdown-divider"></li>
                          <!-- ICTSMEs -->
-                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-ictsmes' %}{% else %}{% url 'engineer-active-ictsmes' %}{% endif %}">Active ICTSME Stage</a></li>
-                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-ictsmes' %}{% else %}{% url 'engineer-resolved-ictsmes' %}{% endif %}">Resolved ICTSME Stage</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-active-ictsmes' %}{% else %}{% url 'officer-active-ictsmes' %}{% endif %}">Active ICTSME Stage</a></li>
+                         <li><a class="dropdown-item" href="{% if request.user.is_customer %}{% url 'customer-resolved-ictsmes' %}{% else %}{% url 'officer-resolved-ictsmes' %}{% endif %}">Resolved ICTSME Stage</a></li>
                          <li><hr class="dropdown-divider"></li>
                      </ul>
                  </li>
@@ -77,7 +77,7 @@
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a href="{% url 'logout' %}" class="btn btn-warning btn-sm">Logout</a>
+                    <a href="{% url 'account_logout' %}" class="btn btn-warning btn-sm">Logout</a>
                 </li>
             </ul>
         </div>

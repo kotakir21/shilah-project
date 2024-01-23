@@ -5,20 +5,15 @@ from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from .form import CreateComplaintForm, AssignComplaintForm  # Update form imports
-from .models import Complaint  # Update model import
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import user_passes_test
+from .form import CreateComplaintForm, AssignComplaintForm
+from .models import Complaint
 
 User = get_user_model()
 
-def is_innovator(user):
-    return user.is_authenticated and not user.is_staff
 # cx can create a complaint from here 
-@user_passes_test(is_innovator, login_url='dashboard')
-def create_complaint(request):  # Rename the function
+def create_complaint(request):
     if request.method == 'POST':
-        form = CreateComplaintForm(request.POST)  # Update form reference
+        form = CreateComplaintForm(request.POST)
         if form.is_valid():
             var = form.save(commit=False)
             var.customer = request.user
@@ -27,100 +22,119 @@ def create_complaint(request):  # Rename the function
                 try:
                     var.complaint_id = id
                     var.save()
-                    # send email func
-                    subject = f'{var.complaint_title} #{var.complaint_id}'
-                    message = 'Thank you for creating a complaint, we will address it soon.'  # Update email message
-                    email_from = 'cshilahkyatuhire@email.com'
-                    recipient_list = [request.user.email, ]
-                    send_mail(subject, message, email_from, recipient_list)
-                    messages.success(request, 'Your complaint has been submitted. We will address it soon.')  # Update success message
-                    return redirect('customer-active-complaints')  # Update redirect
+
+                    # Send email to customer
+                    subject_customer = f'complaint Submitted Successfully - #{var.complaint_id}'
+                    message_customer = 'Thank you for creating a complaint. A Support officer will be assigned soon.'
+                    email_from_customer = 'your-email@example.com'  # Replace with your email
+                    recipient_list_customer = [request.user.email]
+                    send_mail(subject_customer, message_customer, email_from_customer, recipient_list_customer)
+
+                    # Send email to admin
+                    subject_admin = f'New complaint Submitted - #{var.complaint_id}'
+                    message_admin = f'A new complaint has been submitted by {request.user.email}. complaint ID: {var.complaint_id}'
+                    email_from_admin = 'kbobroberts@gmail.com'  # Replace with your email
+                    recipient_list_admin = ['kotakirobert7@gmail.com']  # Replace with the actual admin email
+                    send_mail(subject_admin, message_admin, email_from_admin, recipient_list_admin)
+
+                    messages.success(request, 'Your complaint has been submitted. A Support officer will be assigned soon.')
+                    return redirect('customer-active-complaints')
+
                 except IntegrityError:
                     continue
-        else:
-            messages.warning(request, 'Something went wrong. Please check form errors')
-            return redirect('create-complaint')  # Update redirect
+
+            else:
+                messages.warning(request, 'Something went wrong. Please check form errors')
+                return redirect('create-complaint')
     else:
-        form = CreateComplaintForm()  # Update form reference
+        form = CreateComplaintForm()
         context = {'form': form}
-        return render(request, 'complaint/create_complaint.html', context)  # Update template reference
+        return render(request, 'complaint/create_complaint.html', context)
+        
             
+
 # cx can see all active complaints
-@login_required
-def customer_active_complaints(request):  # Rename the function
-    complaints = Complaint.objects.filter(customer=request.user, is_resolved=False).order_by('-created_on')  # Update model reference
-    context = {'complaints': complaints}  # Update context
-    return render(request, 'complaint/customer_active_complaints.html', context)  # Update template reference
+def customer_active_complaints(request):
+    context = {'complaints': Complaint.objects.filter(customer=request.user, is_resolved=False).order_by('-created_on')}
+    
+    return render(request, 'complaint/customer_active_complaints.html', context)
+
 
 # cx can see all resolved complaints
-@login_required
-def customer_resolved_complaints(request):  # Rename the function
-    complaints = Complaint.objects.filter(customer=request.user, is_resolved=True).order_by('-created_on')  # Update model reference
-    context = {'complaints': complaints}  # Update context
-    return render(request, 'complaint/customer_resolved_complaints.html', context)  # Update template reference
+def customer_resolved_complaints(request):
+    complaints = Complaint.objects.filter(customer=request.user, is_resolved=True).order_by('-created_on')
+    context = {'complaints':complaints}
+    return render(request, 'complaint/customer_resolved_complaints.html', context)
 
-# engineer can see all his/her active complaints
-def engineer_active_complaints(request):  # Rename the function
-    complaints = Complaint.objects.filter(engineer=request.user, is_resolved=False).order_by('-created_on')  # Update model reference
-    context = {'complaints': complaints}  # Update context
-    return render(request, 'complaint/engineer_active_complaints.html', context)  # Update template reference
 
-# engineer can see all his/her resolved complaints
-@login_required
-def engineer_resolved_complaints(request):  # Rename the function
-    complaints = Complaint.objects.filter(engineer=request.user, is_resolved=True).order_by('-created_on')  # Update model reference
-    context = {'complaints': complaints}  # Update context
-    return render(request, 'complaint/engineer_resolved_complaints.html', context)  # Update template reference
+# officer can see all his/her active complaints
+def officer_active_complaints(request):
+    complaints = Complaint.objects.filter(officer=request.user, is_resolved=False).order_by('-created_on')
+    context = {'complaints':complaints}
+    return render(request, 'complaint/officer_active_complaints.html', context)
 
-# assign complaints to engineers
-@login_required
-def assign_complaint(request, complaint_id):  # Rename the function
-    complaint = Complaint.objects.get(complaint_id=complaint_id)  # Update model reference
+
+# officer can see all his/her resolved complaints
+def officer_resolved_complaints(request):
+    complaints = Complaint.objects.filter(officer=request.user, is_resolved=True).order_by('-created_on')
+    context = {'complaints':complaints}
+    return render(request, 'complaint/officer_resolved_complaints.html', context)
+
+
+
+from django.contrib import messages
+
+# assign complaints to officers
+def assign_complaint(request, complaint_id):
+    complaint = Complaint.objects.get(complaint_id=complaint_id)
     if request.method == 'POST':
-        form = AssignComplaintForm(request.POST, instance=complaint)  # Update form reference
+        form = AssignComplaintForm(request.POST, instance=complaint)
         if form.is_valid():
             var = form.save(commit=False)
-            var.is_assigned_to_engineer = True
+            var.is_assigned_to_officer = True
             var.status = 'Active'
             var.save()
-            messages.success(request, f'Complaint has been assigned to {var.engineer}')
-            return redirect('complaint-queue')  # Update redirect
+
+            subject_admin = f'New complaint Submitted - #{var.complaint_id}'
+            message_admin = f'A new complaint has been assigned to you. complaint ID: {var.complaint_id}'
+            email_from_admin = 'kbobroberts@gmail.com'  # Replace with your email
+            recipient_list_admin = ['kotakirobert7@gmail.com']  # Replace with the actual admin email
+            send_mail(subject_admin, message_admin, email_from_admin, recipient_list_admin)
+            
+            messages.success(request, f'complaint has been assigned to {var.officer}')
+            return redirect('complaint-queue')
         else:
             messages.warning(request, 'Something went wrong. Please check form input')
-            return redirect('assign-complaint')  # Update redirect
+            return redirect('assign-complaint')  # check this out later
     else:
-        form = AssignComplaintForm(instance=complaint)  # Update form reference
-        form.fields['engineer'].queryset = User.objects.filter(is_engineer=True)
-        context = {'form': form, 'complaint': complaint}  # Update context
-        return render(request, 'complaint/assign_complaint.html', context)  # Update template reference
+        form = AssignComplaintForm(instance=complaint)
+        form.fields['officer'].queryset = User.objects.filter(is_officer=True)
+        context = {'form': form, 'complaint': complaint}
+        return render(request, 'complaint/assign_complaint.html', context)
+
+        
 
 # complaint details
+def complaint_details(request, complaint_id):
+    complaint = Complaint.objects.get(complaint_id=complaint_id)
+    context = {'complaint':complaint}
+    return render(request, 'complaint/complaint_details.html', context)
 
-@login_required
-def complaint_details(request, complaint_id):  # Rename the function
-    complaint = Complaint.objects.get(complaint_id=complaint_id)  # Update model reference
-    context = {'complaint': complaint}  # Update context
-    return render(request, 'complaint/complaint_details.html', context)  # Update template reference
 
 # complaint queue (for only admins)
-def is_admin(user):
-    return user.is_authenticated and user.is_staff
+def complaint_queue(request):
+    complaints = Complaint.objects.filter(is_assigned_to_officer=False)
+    context = {'complaints':complaints}
+    return render(request, 'complaint/complaint_queue.html', context)
 
-@user_passes_test(is_admin)
-def complaint_queue(request):  # Rename the function
-    complaints = Complaint.objects.filter(is_assigned_to_engineer=False)  # Update model reference
-    context = {'complaints': complaints}  # Update context
-    return render(request, 'complaint/complaint_queue.html', context)  # Update template reference
 
-@user_passes_test(is_admin)
-def resolve_complaint(request, complaint_id):  # Rename the function
-    complaint = Complaint.objects.get(complaint_id=complaint_id)  # Update model reference
+def resolve_complaint(request, complaint_id):
+    complaint = Complaint.objects.get(complaint_id=complaint_id)
     if request.method == 'POST':
         rs = request.POST.get('rs')
         complaint.resolution_steps = rs 
         complaint.is_resolved = True
         complaint.status = 'Resolved'
         complaint.save()
-        messages.success(request, 'Complaint is now resolved and closed')
-        return redirect('dashboard')  # Update redirect
-
+        messages.success(request, 'complaint is now resolved and closed')
+        return redirect('dashboard')

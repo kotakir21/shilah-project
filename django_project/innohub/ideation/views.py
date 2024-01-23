@@ -52,36 +52,36 @@ def customer_resolved_ideations(request):  # Rename the function
     context = {'ideations': ideations}  # Update context
     return render(request, 'ideation/customer_resolved_ideations.html', context)  # Update template reference
 
-# engineer can see all his/her active ideations
-def engineer_active_ideations(request):  # Rename the function
-    ideations = Ideation.objects.filter(engineer=request.user, is_resolved=False).order_by('-created_on')  # Update model reference
+# officer can see all his/her active ideations
+def officer_active_ideations(request):  # Rename the function
+    ideations = Ideation.objects.filter(officer=request.user, is_resolved=False).order_by('-created_on')  # Update model reference
     context = {'ideations': ideations}  # Update context
-    return render(request, 'ideation/engineer_active_ideations.html', context)  # Update template reference
+    return render(request, 'ideation/officer_active_ideations.html', context)  # Update template reference
 
-# engineer can see all his/her resolved ideations
-def engineer_resolved_ideations(request):  # Rename the function
-    ideations = Ideation.objects.filter(engineer=request.user, is_resolved=True).order_by('-created_on')  # Update model reference
+# officer can see all his/her resolved ideations
+def officer_resolved_ideations(request):  # Rename the function
+    ideations = Ideation.objects.filter(officer=request.user, is_resolved=True).order_by('-created_on')  # Update model reference
     context = {'ideations': ideations}  # Update context
-    return render(request, 'ideation/engineer_resolved_ideations.html', context)  # Update template reference
+    return render(request, 'ideation/officer_resolved_ideations.html', context)  # Update template reference
 
-# assign ideations to engineers
+# assign ideations to officers
 def assign_ideation(request, ideation_id):  # Rename the function
     ideation = Ideation.objects.get(ideation_id=ideation_id)  # Update model reference
     if request.method == 'POST':
         form = AssignideationForm(request.POST, instance=ideation)  # Update form reference
         if form.is_valid():
             var = form.save(commit=False)
-            var.is_assigned_to_engineer = True
+            var.is_assigned_to_officer = True
             var.status = 'Active'
             var.save()
-            messages.success(request, f'ideation has been assigned to {var.engineer}')
+            messages.success(request, f'ideation has been assigned to {var.officer}')
             return redirect('ideation-queue')  # Update redirect
         else:
             messages.warning(request, 'Something went wrong. Please check form input')
             return redirect('assign-ideation')  # Update redirect
     else:
         form = AssignideationForm(instance=ideation)  # Update form reference
-        form.fields['engineer'].queryset = User.objects.filter(is_engineer=True)
+        form.fields['officer'].queryset = User.objects.filter(is_officer=True)
         context = {'form': form, 'ideation': ideation}  # Update context
         return render(request, 'ideation/assign_ideation.html', context)  # Update template reference
 
@@ -93,7 +93,7 @@ def ideation_details(request, ideation_id):  # Rename the function
 
 # ideation queue (for only admins)
 def ideation_queue(request):  # Rename the function
-    ideations = Ideation.objects.filter(is_assigned_to_engineer=False)  # Update model reference
+    ideations = Ideation.objects.filter(is_assigned_to_officer=False)  # Update model reference
     context = {'ideations': ideations}  # Update context
     return render(request, 'ideation/ideation_queue.html', context)  # Update template reference
 

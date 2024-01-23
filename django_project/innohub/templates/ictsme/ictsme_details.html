@@ -4,20 +4,15 @@
 
 <div class="row p-5 mb-4 bg-light rounded-3">
     <div class="col-md-8">
-        <div class=" py-5">
+        <div class="py-5">
             <h1 class="display-6 fw-bold">{{ictsme.ictsme_title}}</h1>
-            <p class="">
-                Problem(s) addressed by the product/service/idea: {{ictsme.problem_description}}
-            </p>
-            <p class="">
-                {{ictsme.solution_description}}
-            </p>
+            <p>{{ictsme.ictsme_details}}</p>
             {% if ictsme.status == 'Pending' %}
-            <span class="badge bg-warning">Pending</span>
+                <span class="badge bg-warning">Pending</span>
             {% elif ictsme.status == 'Active' %}
-            <span class="badge bg-success">Active</span>
+                <span class="badge bg-success">Active</span>
             {% elif ictsme.status == 'Resolved' %}
-            <span class="badge bg-danger">Resolved</span>
+                <span class="badge bg-danger">Resolved</span>
             {% endif %}
         </div>
     </div>
@@ -25,21 +20,62 @@
     <div class="col-md-4">
         <div class="card shadow">
             <div class="card-body">
-                <div class=" py-5">
+                <div class="py-5">
                     <h2 class="display-6">Quick Info</h2>
-                    <p>Here are some quick information about the ictsme and the customer that you are supporting.
-                    </p>
-                    <ul class="icon-list">
-                        <li><b>ictsme Unique ID:</b> {{ictsme.ictsme_id}}</li>
-                        <li><b>Customer:</b> {{ictsme.customer}}</li>
-                        <li><b> Engineer:</b> {{ictsme.engineer}}</li>
-                        <li><b>Created On:</b> {{ictsme.created_on}}</li>
-                        <li><b>Severity:</b> {{ictsme.severity}}</li>
+                    <p>Here is some quick information about the ictsme and the customer you are supporting.</p>
+                    <ul class="list-group">
+                        <li class="list-group-item"><b>ictsme Unique ID:</b> {{ictsme.ictsme_id}}</li>
+                        <li class="list-group-item"><b>Customer:</b> {{ictsme.customer}}</li>
+                        <li class="list-group-item"><b>officer:</b> {{ictsme.officer}}</li>
+                        <li class="list-group-item"><b>Created On:</b> {{ictsme.created_on}}</li>
+                        <li class="list-group-item"><b>Severity:</b> {{ictsme.severity}}</li>
                     </ul>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<!--this is what i where to add the form fields. appname.fieldname-->
+<div class="card mb-4">
+    <div class="card-body">
+        <h2 class="card-title">ictsme Details</h2>
+        <dl class="row">
+            <dt class="col-sm-3">ictsme Title:</dt>
+            <dd class="col-sm-9">{{ ictsme.ictsme_title }}</dd>
 
+            <dt class="col-sm-3">position_in_company:</dt>
+            <dd class="col-sm-9">{{ ictsme.position_in_company }}</dd>
+
+            <dt class="col-sm-3">applicant_name:</dt>
+            <dd class="col-sm-9">{{ ictsme.applicant_name }}</dd>
+
+            <dt class="col-sm-3">applicant_phone:</dt>
+            <dd class="col-sm-9">{{ ictsme.applicant_phone }}</dd>
+
+            <dt class="col-sm-3">product_name:</dt>
+            <dd class="col-sm-9">{{ ictsme.product_name }}</dd>
+
+            <dt class="col-sm-3">year_of_incorporation:</dt>
+            <dd class="col-sm-9">{{ ictsme.year_of_incorporation }}</dd>
+
+            <dt class="col-sm-3">have_ursb_registration_number:</dt>
+            <dd class="col-sm-9">{{ ictsme.have_ursb_registration_number }}</dd>
+
+            <dt class="col-sm-3">ursb_registration_number:</dt>
+            <dd class="col-sm-9">{{ ictsme.ursb_registration_number }}</dd>
+
+            <dt class="col-sm-3">have_ura_registration_number:</dt>
+            <dd class="col-sm-9">{{ ictsme.have_ura_registration_number }}</dd>
+
+            <dt class="col-sm-3">ura_registration_number:</dt>
+            <dd class="col-sm-9">{{ ictsme.ura_registration_number }}</dd>
+
+            <dt class="col-sm-3">mentor_support:</dt>
+            <dd class="col-sm-9">{{ ictsme.mentor_support }}</dd>
+
+            <dt class="col-sm-3">hub_requirements:</dt>
+            <dd class="col-sm-9">{{ ictsme.hub_requirements }}</dd>
+        </dl>
     </div>
 </div>
 
@@ -51,7 +87,7 @@
     </div>
 </div>
 {% else %}
-{% if request.user.is_engineer %}
+{% if request.user.is_officer %}
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -67,31 +103,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="">
-                    <div class="">
-
-                        <form action="{% url 'resolve-ictsme' ictsme.ictsme_id %}" method="POST">
-                            {% csrf_token %}
-                            <div class="mb-3">
-                                <label for="exampleFormControlTextarea1" class="form-label">Here's how the
-                                    issue was resolved</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                    name="rs"></textarea>
-                            </div>
-                            <button class="btn btn-primary">Save</button>
-                        </form>
-                
+                <form action="{% url 'resolve-ictsme' ictsme.ictsme_id %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Here's how the issue was resolved</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="rs"></textarea>
                     </div>
-                </div>
+                    <button class="btn btn-primary">Save</button>
+                </form>
             </div>
-
         </div>
     </div>
 </div>
 
-</form>
-</div>
-</div>
 {% endif %}
 {% endif %}
 

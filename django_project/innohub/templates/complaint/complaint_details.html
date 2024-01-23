@@ -4,20 +4,15 @@
 
 <div class="row p-5 mb-4 bg-light rounded-3">
     <div class="col-md-8">
-        <div class=" py-5">
+        <div class="py-5">
             <h1 class="display-6 fw-bold">{{complaint.complaint_title}}</h1>
-            <p class="">
-                {{complaint.complaint_details}}
-            </p>
-            <p class="">
-                {{complaint.complaint_details}}
-            </p>
+            <p>{{complaint.complaint_details}}</p>
             {% if complaint.status == 'Pending' %}
-            <span class="badge bg-warning">Pending</span>
+                <span class="badge bg-warning">Pending</span>
             {% elif complaint.status == 'Active' %}
-            <span class="badge bg-success">Active</span>
+                <span class="badge bg-success">Active</span>
             {% elif complaint.status == 'Resolved' %}
-            <span class="badge bg-danger">Resolved</span>
+                <span class="badge bg-danger">Resolved</span>
             {% endif %}
         </div>
     </div>
@@ -25,21 +20,53 @@
     <div class="col-md-4">
         <div class="card shadow">
             <div class="card-body">
-                <div class=" py-5">
+                <div class="py-5">
                     <h2 class="display-6">Quick Info</h2>
-                    <p>Here are some quick information about the complaint and the customer that you are supporting.
-                    </p>
-                    <ul class="icon-list">
-                        <li><b>complaint Unique ID:</b> {{complaint.complaint_id}}</li>
-                        <li><b>Customer:</b> {{complaint.customer}}</li>
-                        <li><b> Engineer:</b> {{complaint.engineer}}</li>
-                        <li><b>Created On:</b> {{complaint.created_on}}</li>
-                        <li><b>Severity:</b> {{complaint.severity}}</li>
+                    <p>Here is some quick information about the complaint and the customer you are supporting.</p>
+                    <ul class="list-group">
+                        <li class="list-group-item"><b>Complaint Unique ID:</b> {{complaint.complaint_id}}</li>
+                        <li class="list-group-item"><b>Customer:</b> {{complaint.customer}}</li>
+                        <li class="list-group-item"><b>officer:</b> {{complaint.officer}}</li>
+                        <li class="list-group-item"><b>Created On:</b> {{complaint.created_on}}</li>
+                        <li class="list-group-item"><b>Severity:</b> {{complaint.severity}}</li>
                     </ul>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<!--this is what i where to add the form fields. appname.fieldname-->
+<div class="card mb-4">
+    <div class="card-body">
+        <h2 class="card-title">Complaint Details</h2>
+        <dl class="row">
+            <dt class="col-sm-3">Complaint Title:</dt>
+            <dd class="col-sm-9">{{ complaint.complaint_title }}</dd>
 
+            <dt class="col-sm-3">Complainant Name:</dt>
+            <dd class="col-sm-9">{{ complaint.complainant_name }}</dd>
+
+            <dt class="col-sm-3">Complainant Phone:</dt>
+            <dd class="col-sm-9">{{ complaint.complainant_phone }}</dd>
+
+            <dt class="col-sm-3">Submitted for Another:</dt>
+            <dd class="col-sm-9">{{ complaint.is_submitted_for_another }}</dd>
+
+            <dt class="col-sm-3">Other Innovator Name:</dt>
+            <dd class="col-sm-9">{{ complaint.other_innovator_name }}</dd>
+
+            <dt class="col-sm-3">Other Innovator Contact:</dt>
+            <dd class="col-sm-9">{{ complaint.other_innovator_contact }}</dd>
+
+            <dt class="col-sm-3">Complaint Details:</dt>
+            <dd class="col-sm-9">{{ complaint.complaint_details }}</dd>
+
+            <dt class="col-sm-3">First Time Submission:</dt>
+            <dd class="col-sm-9">{{ complaint.is_first_time_submission }}</dd>
+
+            <dt class="col-sm-3">additional Information:</dt>
+            <dd class="col-sm-9">{{ complaint.additional_information }}</dd>
+        </dl>
     </div>
 </div>
 
@@ -51,7 +78,7 @@
     </div>
 </div>
 {% else %}
-{% if request.user.is_engineer %}
+{% if request.user.is_officer %}
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -96,3 +123,5 @@
 {% endif %}
 
 {% endblock content %}
+
+

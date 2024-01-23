@@ -22,30 +22,41 @@ def create_ticket(request):
                 try:
                     var.ticket_id = id
                     var.save()
-                    # send email func
-                    subject = f'{var.ticket_title} #{var.ticket_id}'
-                    message = 'Thank you for creating a ticket, we will assign an engineer soon.'
-                    email_from = 'chidiohiri@email.com'
-                    recipient_list = [request.user.email, ]
-                    send_mail(subject, message, email_from, recipient_list)
-                    messages.success(request, 'Your ticket has been submitted. A Support Engineer would reach out soon.')
+
+                    # Send email to customer
+                    subject_customer = f'Ticket Submitted Successfully - #{var.ticket_id}'
+                    message_customer = 'Thank you for creating a ticket. A Support officer will be assigned soon.'
+                    email_from_customer = 'your-email@example.com'  # Replace with your email
+                    recipient_list_customer = [request.user.email]
+                    send_mail(subject_customer, message_customer, email_from_customer, recipient_list_customer)
+
+                    # Send email to admin
+                    subject_admin = f'New Ticket Submitted - #{var.ticket_id}'
+                    message_admin = f'A new ticket has been submitted by {request.user.email}. Ticket ID: {var.ticket_id}'
+                    email_from_admin = 'kbobroberts@gmail.com'  # Replace with your email
+                    recipient_list_admin = ['kotakirobert7@gmail.com']  # Replace with the actual admin email
+                    send_mail(subject_admin, message_admin, email_from_admin, recipient_list_admin)
+
+                    messages.success(request, 'Your ticket has been submitted. A Support officer will be assigned soon.')
                     return redirect('customer-active-tickets')
-                    # break
+
                 except IntegrityError:
                     continue
-        else:
-            messages.warning(request, 'Something went wrong. Please check form errors')
-            return redirect('create-ticket')
+
+            else:
+                messages.warning(request, 'Something went wrong. Please check form errors')
+                return redirect('create-ticket')
     else:
         form = CreateTicketForm()
-        context = {'form':form}
+        context = {'form': form}
         return render(request, 'ticket/create_ticket.html', context)
         
             
+
 # cx can see all active tickets
 def customer_active_tickets(request):
-    tickets = Ticket.objects.filter(customer=request.user, is_resolved=False).order_by('-created_on')
-    context = {'tickets':tickets}
+    context = {'tickets': Ticket.objects.filter(customer=request.user, is_resolved=False).order_by('-created_on')}
+    
     return render(request, 'ticket/customer_active_tickets.html', context)
 
 
@@ -56,40 +67,51 @@ def customer_resolved_tickets(request):
     return render(request, 'ticket/customer_resolved_tickets.html', context)
 
 
-# engineer can see all his/her active tickets
-def engineer_active_tickets(request):
-    tickets = Ticket.objects.filter(engineer=request.user, is_resolved=False).order_by('-created_on')
+# officer can see all his/her active tickets
+def officer_active_tickets(request):
+    tickets = Ticket.objects.filter(officer=request.user, is_resolved=False).order_by('-created_on')
     context = {'tickets':tickets}
-    return render(request, 'ticket/engineer_active_tickets.html', context)
+    return render(request, 'ticket/officer_active_tickets.html', context)
 
 
-# engineer can see all his/her resolved tickets
-def engineer_resolved_tickets(request):
-    tickets = Ticket.objects.filter(engineer=request.user, is_resolved=True).order_by('-created_on')
+# officer can see all his/her resolved tickets
+def officer_resolved_tickets(request):
+    tickets = Ticket.objects.filter(officer=request.user, is_resolved=True).order_by('-created_on')
     context = {'tickets':tickets}
-    return render(request, 'ticket/engineer_resolved_tickets.html', context)
+    return render(request, 'ticket/officer_resolved_tickets.html', context)
 
 
-# assign tickets to engineers
+
+from django.contrib import messages
+
+# assign tickets to officers
 def assign_ticket(request, ticket_id):
     ticket = Ticket.objects.get(ticket_id=ticket_id)
     if request.method == 'POST':
         form = AssignTicketForm(request.POST, instance=ticket)
         if form.is_valid():
             var = form.save(commit=False)
-            var.is_assigned_to_engineer = True
+            var.is_assigned_to_officer = True
             var.status = 'Active'
             var.save()
-            messages.success(request, f'Ticket has been assigned to {var.engineer}')
+
+            subject_admin = f'New Ticket Submitted - #{var.ticket_id}'
+            message_admin = f'A new ticket has been assigned to you. Ticket ID: {var.ticket_id}'
+            email_from_admin = 'kbobroberts@gmail.com'  # Replace with your email
+            recipient_list_admin = ['kotakirobert7@gmail.com']  # Replace with the actual admin email
+            send_mail(subject_admin, message_admin, email_from_admin, recipient_list_admin)
+            
+            messages.success(request, f'Ticket has been assigned to {var.officer}')
             return redirect('ticket-queue')
         else:
             messages.warning(request, 'Something went wrong. Please check form input')
-            return redirect('assign-ticket') # check this out later 
+            return redirect('assign-ticket')  # check this out later
     else:
         form = AssignTicketForm(instance=ticket)
-        form.fields['engineer'].queryset = User.objects.filter(is_engineer=True)
-        context = {'form':form, 'ticket':ticket}
+        form.fields['officer'].queryset = User.objects.filter(is_officer=True)
+        context = {'form': form, 'ticket': ticket}
         return render(request, 'ticket/assign_ticket.html', context)
+
         
 
 # ticket details
@@ -101,7 +123,7 @@ def ticket_details(request, ticket_id):
 
 # ticket queue (for only admins)
 def ticket_queue(request):
-    tickets = Ticket.objects.filter(is_assigned_to_engineer=False)
+    tickets = Ticket.objects.filter(is_assigned_to_officer=False)
     context = {'tickets':tickets}
     return render(request, 'ticket/ticket_queue.html', context)
 

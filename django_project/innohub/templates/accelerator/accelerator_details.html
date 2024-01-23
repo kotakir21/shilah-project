@@ -4,20 +4,15 @@
 
 <div class="row p-5 mb-4 bg-light rounded-3">
     <div class="col-md-8">
-        <div class=" py-5">
+        <div class="py-5">
             <h1 class="display-6 fw-bold">{{accelerator.accelerator_title}}</h1>
-            <p class="">
-                Problem(s) addressed by the product/service/idea: {{accelerator.problem_description}}
-            </p>
-            <p class="">
-                {{accelerator.solution_description}}
-            </p>
+            <p>{{accelerator.accelerator_details}}</p>
             {% if accelerator.status == 'Pending' %}
-            <span class="badge bg-warning">Pending</span>
+                <span class="badge bg-warning">Pending</span>
             {% elif accelerator.status == 'Active' %}
-            <span class="badge bg-success">Active</span>
+                <span class="badge bg-success">Active</span>
             {% elif accelerator.status == 'Resolved' %}
-            <span class="badge bg-danger">Resolved</span>
+                <span class="badge bg-danger">Resolved</span>
             {% endif %}
         </div>
     </div>
@@ -25,21 +20,109 @@
     <div class="col-md-4">
         <div class="card shadow">
             <div class="card-body">
-                <div class=" py-5">
+                <div class="py-5">
                     <h2 class="display-6">Quick Info</h2>
-                    <p>Here are some quick information about the accelerator and the customer that you are supporting.
-                    </p>
-                    <ul class="icon-list">
-                        <li><b>accelerator Unique ID:</b> {{accelerator.accelerator_id}}</li>
-                        <li><b>Customer:</b> {{accelerator.customer}}</li>
-                        <li><b> Engineer:</b> {{accelerator.engineer}}</li>
-                        <li><b>Created On:</b> {{accelerator.created_on}}</li>
-                        <li><b>Severity:</b> {{accelerator.severity}}</li>
+                    <p>Here is some quick information about the accelerator and the customer you are supporting.</p>
+                    <ul class="list-group">
+                        <li class="list-group-item"><b>accelerator Unique ID:</b> {{accelerator.accelerator_id}}</li>
+                        <li class="list-group-item"><b>Customer:</b> {{accelerator.customer}}</li>
+                        <li class="list-group-item"><b>officer:</b> {{accelerator.officer}}</li>
+                        <li class="list-group-item"><b>Created On:</b> {{accelerator.created_on}}</li>
+                        <li class="list-group-item"><b>Severity:</b> {{accelerator.severity}}</li>
                     </ul>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<!--this is what i where to add the form fields. appname.fieldname-->
+<div class="card mb-4">
+    <div class="card-body">
+        <h2 class="card-title">accelerator Details</h2>
+        <dl class="row">
+            <dt class="col-sm-3">accelerator Title:</dt>
+            <dd class="col-sm-9">{{ accelerator.accelerator_title }}</dd>
 
+            <dt class="col-sm-3">position_in_company:</dt>
+            <dd class="col-sm-9">{{ accelerator.position_in_company }}</dd>
+
+            <dt class="col-sm-3">applicant_name:</dt>
+            <dd class="col-sm-9">{{ accelerator.applicant_name}}</dd>
+
+            <dt class="col-sm-3">applicant_phone:</dt>
+            <dd class="col-sm-9">{{ accelerator.applicant_phone }}</dd>
+
+            <dt class="col-sm-3">product_name:</dt>
+            <dd class="col-sm-9">{{ accelerator.product_name }}</dd>
+
+            <dt class="col-sm-3">problem_description:</dt>
+            <dd class="col-sm-9">{{ accelerator.problem_description }}</dd>
+
+            <dt class="col-sm-3">solution_description:</dt>
+            <dd class="col-sm-9">{{ accelerator.solution_description }}</dd>
+
+            <dt class="col-sm-3">serving_sectors:</dt>
+            <dd class="col-sm-9">{{ accelerator.serving_sectors }}</dd>
+
+            <dt class="col-sm-3">competitors_description:</dt>
+            <dd class="col-sm-9">{{ accelerator.competitors_description }}</dd>
+
+
+            <dt class="col-sm-3">market_potential:</dt>
+            <dd class="col-sm-9">{{ accelerator.market_potential }}</dd>
+
+
+
+            <dt class="col-sm-3">have_technical_documentation:</dt>
+            <dd class="col-sm-9">{{ accelerator.have_technical_documentation }}</dd>
+
+
+            <dt class="col-sm-3">technical_documentation:</dt>
+            <dd class="col-sm-9">{{ accelerator.technical_documentation }}</dd>
+
+
+            <dt class="col-sm-3">have_ursb_registration_number:</dt>
+            <dd class="col-sm-9">{{ accelerator.have_ursb_registration_number }}</dd>
+
+
+            <dt class="col-sm-3">ursb_registration_number:</dt>
+            <dd class="col-sm-9">{{ accelerator.ursb_registration_number }}</dd>
+
+
+            <dt class="col-sm-3">have_documented_processes:</dt>
+            <dd class="col-sm-9">{{ accelerator.have_documented_processes }}</dd>
+
+
+            <dt class="col-sm-3">documented_processes:</dt>
+            <dd class="col-sm-9">{{ accelerator.documented_processes }}</dd>
+
+
+            <dt class="col-sm-3">have_ura_registration_number:</dt>
+            <dd class="col-sm-9">{{ accelerator.have_ura_registration_number }}</dd>
+
+
+            <dt class="col-sm-3">ura_registration_number:</dt>
+            <dd class="col-sm-9">{{ accelerator.ura_registration_number }}</dd>
+
+            <dt class="col-sm-3">have_pdpo_registration_number:</dt>
+            <dd class="col-sm-9">{{ accelerator.have_pdpo_registration_number }}</dd>
+            
+
+
+            <dt class="col-sm-3">pdpo_registration_number:</dt>
+            <dd class="col-sm-9">{{ accelerator.pdpo_registration_number }}</dd>
+            
+
+
+            <dt class="col-sm-3">funding_amount:</dt>
+            <dd class="col-sm-9">{{ accelerator.funding_amount }}</dd>
+            
+
+            <dt class="col-sm-3">hub_requirements:</dt>
+            <dd class="col-sm-9">{{ accelerator.hub_requirements }}</dd>
+            
+
+        </dl>
     </div>
 </div>
 
@@ -51,7 +134,7 @@
     </div>
 </div>
 {% else %}
-{% if request.user.is_engineer %}
+{% if request.user.is_officer %}
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -67,31 +150,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="">
-                    <div class="">
-
-                        <form action="{% url 'resolve-accelerator' accelerator.accelerator_id %}" method="POST">
-                            {% csrf_token %}
-                            <div class="mb-3">
-                                <label for="exampleFormControlTextarea1" class="form-label">Here's how the
-                                    issue was resolved</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                    name="rs"></textarea>
-                            </div>
-                            <button class="btn btn-primary">Save</button>
-                        </form>
-                
+                <form action="{% url 'resolve-accelerator' accelerator.accelerator_id %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Here's how the issue was resolved</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="rs"></textarea>
                     </div>
-                </div>
+                    <button class="btn btn-primary">Save</button>
+                </form>
             </div>
-
         </div>
     </div>
 </div>
 
-</form>
-</div>
-</div>
 {% endif %}
 {% endif %}
 
