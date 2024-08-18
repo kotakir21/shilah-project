@@ -12,6 +12,15 @@
             <a href="{% url 'incubator-queue' %}" class="btn btn-primary btn-lg" type="button">View Incubator Entry Form Queue</a>
             <a href="{% url 'accelerator-queue' %}" class="btn btn-primary btn-lg" type="button">View Accelerator Entry Form Queue</a>
             <a href="{% url 'ictsme-queue' %}" class="btn btn-primary btn-lg" type="button">View ICT SME Hot Desk Entry Form Queue</a>
+            <a href="{% url 'inbox' %}" class="btn btn-primary btn-lg position-relative" type="button">
+                View Inbox
+                {% if unread_message_count > 0 %}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ unread_message_count }}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                {% endif %}
+            </a>
         </div>
     </div>
 </div>

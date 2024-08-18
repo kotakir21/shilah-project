@@ -12,7 +12,7 @@ CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-icy-term-29576850.eu-ws2.runcode.io','https://8080-icy-term-29576850.eu-ws2.runcode.io']
+CSRF_TRUSTED_ORIGINS = ['https://8000-morning-frog-04447877.in-ws1.runcode.io','https://8080-morning-frog-04447877.in-ws1.runcode.io']
 
 
 

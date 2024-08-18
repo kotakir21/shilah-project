@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Inbox</h2>
+
+    <!-- Search Box -->
+    <form method="get" action="{% url 'inbox' %}" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="q" id="userSearch" placeholder="Search users..." value="{{ search_query }}" class="form-control">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+        <!-- Dropdown for suggestions -->
+        <div class="dropdown-menu w-100 mt-1" id="suggestions" style="display: none;"></div>
+    </form>
+
+    <!-- List of Users -->
+    <div class="list-group">
+        {% if users %}
+            {% for user in users %}
+                <a href="{% url 'conversation' user.username %}" class="list-group-item list-group-item-action">
+                    {{ user.username }}
+                </a>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-warning" role="alert">No users found.</div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    document.getElementById('userSearch').addEventListener('input', function() {
+        let query = this.value;
+        if (query.length > 0) {
+            fetch(`/api/users/?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    let dropdown = document.getElementById('suggestions');
+                    dropdown.style.display = 'block';
+                    dropdown.innerHTML = '';
+                    data.users.forEach(user => {
+                        let option = document.createElement('a');
+                        option.className = 'dropdown-item';
+                        option.href = `/messages/conversation/${user.username}/`;
+                        option.textContent = user.username;
+                        dropdown.appendChild(option);
+                    });
+                });
+        } else {
+            document.getElementById('suggestions').style.display = 'none';
+        }
+    });
+</script>
+{% endblock %}

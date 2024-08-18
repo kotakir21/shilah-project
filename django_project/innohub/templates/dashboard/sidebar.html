@@ -1,22 +1,27 @@
-
 <!-- sidebar.html -->
 <div class="sidebar">
     <h2>Innovator Dashboard</h2>
     <ul>
+        <li>
+            <a href="{% url 'inbox' %}" class="btn btn-primary btn-lg position-relative" type="button">
+                View Inbox
+                {% if unread_message_count > 0 %}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ unread_message_count }}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                {% endif %}
+            </a>
+        </li>
         <li><a href="{% url 'create-ticket' %}">Send an Inquiry</a></li>
         <li><a href="{% url 'create-complaint' %}">Log a Complaint</a></li>
-        <h3>Apply for Space Basing on the Innovation Stage</h3>
+        <h3>Apply for Space Based on the Innovation Stage</h3>
         <li><a href="{% url 'create-ideation' %}">Ideation Stage</a></li>
         <li><a href="{% url 'create-incubator' %}">Incubator Stage</a></li>
         <li><a href="{% url 'create-accelerator' %}">Accelerator Stage</a></li>
         <li><a href="{% url 'create-ictsme' %}">Tech-SME Stage</a></li>
-        <ul>
-            
-        </ul>
-        <!-- Your list items here -->
     </ul>
 
-    <!-- Add the embedded CSS styles directly here -->
     <style>
         .sidebar {
             height: 500px; /* Adjust as needed */
@@ -32,7 +37,7 @@
             border-radius: 15px;
         }
 
-        .sidebar h2{
+        .sidebar h2 {
             color: #818181;
             padding: 20px;
             text-align: center;
@@ -41,7 +46,7 @@
             border-bottom: 1px solid #ddd;
         }
         
-        .sidebar h3{
+        .sidebar h3 {
             color: #818181;
             padding: 20px;
             text-align: center;
@@ -72,6 +77,52 @@
 
         .sidebar a:hover {
             color: #f1f1f1;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.5em 0.75em;
+        }
+
+        /* Ensures the badge is positioned correctly on the button */
+        .position-relative {
+            position: relative;
+        }
+
+        .position-absolute {
+            position: absolute;
+        }
+
+        .translate-middle {
+            transform: translate(-50%, -50%);
+        }
+
+        .top-0 {
+            top: 0;
+        }
+
+        .start-100 {
+            left: 100%;
+        }
+
+        .rounded-pill {
+            border-radius: 50rem;
+        }
+
+        .bg-danger {
+            background-color: #dc3545 !important;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
         }
     </style>
 </div>

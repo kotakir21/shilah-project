@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Chat Container -->
+            <div class="card shadow-sm">
+                <!-- Chat Header -->
+                <div class="card-header text-white bg-primary d-flex align-items-center">
+                    <h5 class="mb-0 flex-grow-1">Conversation with {{ other_user.username }}</h5>
+                    <span class="badge bg-light text-dark">Online</span>
+                </div>
+
+                <!-- Chat Messages -->
+                <div class="card-body" id="chat-box" style="overflow-y: auto; max-height: 400px; background-color: #f7f7f7;">
+                    {% for message in messages %}
+                        <div class="d-flex {% if message.sender == request.user %}justify-content-end{% else %}justify-content-start{% endif %} mb-3">
+                            <div class="p-3 rounded {% if message.sender == request.user %}bg-primary text-white{% else %}bg-light text-dark{% endif %} shadow-sm">
+                                <p class="mb-1">{{ message.content }}</p>
+                                <small class="d-block text-muted">{{ message.timestamp|date:"d M Y, H:i" }}</small>
+                                {% if message.attachment %}
+                                    <a href="{{ message.attachment.url }}" class="btn btn-secondary mt-2" download>Download Attachment</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Message Input -->
+                <div class="card-footer bg-light">
+                    <form method="post" enctype="multipart/form-data" class="d-flex">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            {{ form.content }}
+                            <input type="file" name="attachment" class="form-control ms-2" />  <!-- Add this line for the attachment input -->
+                            <button type="submit" class="btn btn-success ms-2">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
